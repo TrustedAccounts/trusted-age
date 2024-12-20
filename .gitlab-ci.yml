@@ -1,0 +1,83 @@
+variables:
+  IMAGE_NAME: trustedaccounts/age
+  IMAGE_TAG_FRONTEND: trusted-age-frontend-${CI_COMMIT_SHORT_SHA}
+  IMAGE_TAG_BACKEND: trusted-age-backend-${CI_COMMIT_SHORT_SHA}
+  IMAGE_TAG_DEMO: trusted-age-demo-${CI_COMMIT_SHORT_SHA}
+  SERVER_IP: 104.248.43.43
+
+stages:
+  - build
+  - deploy
+
+build_image:
+  stage: build
+  image: docker:27.1.2
+  services:
+    - docker:27.1.2-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG_FRONTEND ./frontend
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG_BACKEND ./backend
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG_DEMO ./demo
+    - docker push $IMAGE_NAME:$IMAGE_TAG_FRONTEND
+    - docker push $IMAGE_NAME:$IMAGE_TAG_BACKEND
+    - docker push $IMAGE_NAME:$IMAGE_TAG_DEMO
+
+deploy_staging:
+  stage: deploy
+  only:
+    - dev
+    - main
+  before_script:
+    - chmod 400 $SSH_KEY_STAGE
+    - echo "AWS_REGION=$AWS_REGION" > .env-age-backend
+    - echo "MONGO_URL=$MONGO_URL" >> .env-age-backend
+    - echo "AWS_ACCESS_KEY_ID=$AGE_BACKEND_AWS_ACCESS_KEY_ID" >> .env-age-backend
+    - echo "AWS_SECRET_ACCESS_KEY=$AGE_BACKEND_AWS_SECRET_ACCESS_KEY" >> .env-age-backend
+    - echo "REKOGNITION_BUCKET=$AGE_BACKEND_REKOGNITION_BUCKET" >> .env-age-backend
+    - echo "DOCUMENT_INTELLIGENCE_ENDPOINT=$AGE_BACKEND_DOCUMENT_INTELLIGENCE_ENDPOINT" >> .env-age-backend
+    - echo "DOCUMENT_INTELLIGENCE_API_KEY=$AGE_BACKEND_DOCUMENT_INTELLIGENCE_API_KEY" >> .env-age-backend
+    - echo "ADMIN_AUTH_USERNAME=$AGE_BACKEND_ADMIN_AUTH_USERNAME" >> .env-age-backend
+    - echo "ADMIN_AUTH_PASSWORD=$AGE_BACKEND_ADMIN_AUTH_PASSWORD" >> .env-age-backend
+    - echo "JWT_PRIVATE_KEY=$AGE_BACKEND_JWT_PRIVATE_KEY" >> .env-age-backend
+    - echo "JWT_PUBLIC_KEY=$AGE_BACKEND_JWT_PUBLIC_KEY" >> .env-age-backend
+    - echo "TEXTRACT_TEST_MODE=$AGE_BACKEND_TEXTRACT_TEST_MODE" >> .env-age-backend
+    - echo "EMAIL_HOST=AGE_BACKEND_EMAIL_HOST" >> .env-age-backend
+    - echo "EMAIL_USER=AGE_BACKEND_EMAIL_USER" >> .env-age-backend
+    - echo "EMAIL_PASS=AGE_BACKEND_EMAIL_PASS" >> .env-age-backend
+    - echo "EMAIL_PORT=AGE_BACKEND_EMAIL_PORT" >> .env-age-backend
+    - echo "EMAIL_SECURE=AGE_BACKEND_EMAIL_SECURE" >> .env-age-backend
+    - echo "EMAIL_REQUIRE_TLS=AGE_BACKEND_EMAIL_REQUIRE_TLS" >> .env-age-backend
+    - echo "AGE_FRONTEND_REACT_APP_BACKEND_URL=$AGE_FRONTEND_REACT_APP_BACKEND_URL" > .env-age-frontend
+    - scp -o StrictHostKeyChecking=no -i $SSH_KEY_STAGE .env-age-backend root@$SERVER_IP:/root/.env-age-backend
+    - scp -o StrictHostKeyChecking=no -i $SSH_KEY_STAGE .env-age-frontend root@$SERVER_IP:/root/.env-age-frontend
+  script:
+    # Cleanup old images:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY_STAGE root@$SERVER_IP "
+      docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS &&
+      docker system prune -a -f
+      "
+
+    # Restart docker backend from new image:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY_STAGE root@$SERVER_IP "
+      docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS &&
+      docker ps -q --filter 'publish=5555' | xargs -r docker stop | xargs -r docker rm &&
+      docker run -d -p 5555:5555 --env-file /root/.env-age-backend $IMAGE_NAME:$IMAGE_TAG_BACKEND
+      "
+
+    # Restart docker frontend from new image:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY_STAGE root@$SERVER_IP "
+      docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS &&
+      docker ps -q --filter "name=age-frontend" | xargs -r docker stop | xargs -r docker rm &&
+      docker run --network host --name age-frontend -d --env-file /root/.env-age-frontend $IMAGE_NAME:$IMAGE_TAG_FRONTEND
+      "
+
+    # Restart docker demo service from new image:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY_STAGE root@$SERVER_IP "
+      docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS &&
+      docker ps -q --filter 'name=age-demo' | xargs -r docker stop | xargs -r docker rm &&
+      docker run -d -p 4000:4000 --name age-demo -d $IMAGE_NAME:$IMAGE_TAG_DEMO
+      "

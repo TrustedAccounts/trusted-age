@@ -1,0 +1,31 @@
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/spacing" as *;
+
+.ProgressBar {
+    color: $blue;
+    width: 100%;
+
+    .Count {
+        margin-right: $spacing-xxs;
+    }
+
+    .Label {
+        text-align: start;
+    }
+}
+
+.Bar {
+    height: $spacing-xs;
+    width: 100%;
+
+    background-color: $grey-ltr;
+    border-radius: $border-radius-m;
+    position: relative;
+    margin-bottom: $spacing-xxs;
+
+    .Progress {
+        height: 100%;
+        background-color: $blue;
+        border-radius: $border-radius-m;
+    }
+}

@@ -1,0 +1,36 @@
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/spacing" as *;
+@use "../../../../../src/styles/theme/fonts" as *;
+
+.VerifiedCardContainer {
+  padding: $spacing-m;
+  background-color: $blue;
+  border-radius: $border-radius-s;
+  width: 100%;
+  max-width: 272px;
+  margin-bottom: $spacing-m;
+
+  * { color: $white;}
+
+  p {
+    font-size: $font-xs;
+  }
+}
+
+.ColumnCenter {
+  margin: $spacing-xl 0;
+
+  h3 {
+    font-size: $font-s;
+  }
+
+  p {
+    margin-bottom: $spacing-xxxs;
+  }
+}
+
+.VerifiedCardFooter {
+  img {
+    margin-right: $spacing-xxs;
+  }
+}

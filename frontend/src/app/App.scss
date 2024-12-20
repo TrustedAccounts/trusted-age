@@ -1,0 +1,125 @@
+@use "../../src/styles/theme/fonts" as *;
+@use "../../src/styles/theme/colors" as *;
+@use "../../src/styles/theme/spacing" as *;
+
+.App {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  width: 100%;
+  flex: 1;
+  margin: auto;
+
+  > *:not(header):not(footer):not(.PassportScanner) {
+    padding: $spacing-m;
+
+    &:not(.ProgressBar) {
+      flex: 1
+    }
+  }
+}
+
+.ProgressBar {
+  //margin-bottom: $spacing-s;
+}
+
+p, span, input, select, button, a {
+  font-size: $font-s;
+}
+
+h2, h3, h4, h5, h6 {
+  font-size: $font-m;
+  margin: 0;
+}
+
+h1 {
+  font-size: $font-l;
+  margin: 0;
+}
+
+p {
+  margin: 0
+}
+
+label {
+  font-size: $font-xs;
+}
+
+a {
+  text-decoration: none;
+  color: $blue;
+}
+
+p {
+  color: $text-pri;
+}
+
+.Bold {
+  font-weight: bold;
+}
+
+.RowSpaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Row {
+  display: flex;
+  align-items: center;
+}
+
+.RowCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Column {
+  display: flex;
+  flex-direction: column;
+}
+
+.ColumnCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ColumnCenterSpaceBetween {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ColumnActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: $spacing-xs;
+
+  > * {
+    width: 100%;
+  }
+}
+
+.GreyContainer {
+  background: $grey-ltr;
+  padding: $spacing-m;
+  border-radius: $border-radius-s;
+  box-sizing: border-box;
+}
+
+.Divider {
+  height: 1px;
+  width: 100%;
+  background: $grey-lt;
+}
+
+.Error {
+    color: $red;
+}

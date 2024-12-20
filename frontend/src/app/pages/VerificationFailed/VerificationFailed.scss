@@ -1,0 +1,26 @@
+@use "../../../../src/styles/theme/colors" as *;
+@use "../../../../src/styles/theme/spacing" as *;
+@use "../../../../src/styles/theme/fonts" as *;
+
+.VerificationFailed {
+  padding: $spacing-m;
+  .GreyContainer {
+    width: 100%;
+    max-width: 676px;
+    text-align: center;
+
+    h3 {
+      font-size: $font-m;
+      color: $text-dk;
+    }
+
+    p {
+      margin: $spacing-xs 0;
+      font-size: $font-xs;
+    }
+
+    button {
+      margin-top: $spacing-s;
+    }
+  }
+}

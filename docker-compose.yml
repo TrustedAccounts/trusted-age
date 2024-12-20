@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"
+    env_file:
+      - ./backend/.env
+    networks:
+      - trustedage-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5555/api/health-check" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    env_file:
+      - ./frontend/.env
+    networks:
+      - trustedage-network
+    depends_on:
+      - backend
+
+#  mongo:
+#    image: mongo:latest
+#    container_name: trustedage-mongo
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongo-data:/data/db
+#    networks:
+#      - trustedage-network
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: example
+#    healthcheck:
+#      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+#      start_period: 30s
+
+networks:
+  trustedage-network:
+    driver: bridge

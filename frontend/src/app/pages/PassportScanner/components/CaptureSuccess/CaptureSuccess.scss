@@ -1,0 +1,36 @@
+@use "../../../../../../src/styles/theme/colors" as *;
+@use "../../../../../../src/styles/theme/spacing" as *;
+
+.captured-image-container {
+  height: 100%;
+  width: 100%;
+  background-color: $white;
+  justify-content: space-between;
+
+  img.result {
+    border-radius: $border-radius-xs;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.captured-image-content {
+  gap: $spacing-xl;
+  padding: $spacing-m;
+  max-width: 700px;
+  width: 100%;
+  margin: auto;
+
+  .title {
+    h1 {
+      color: $blue;
+    }
+  }
+}
+
+.actions {
+  gap: $spacing-xs;
+}

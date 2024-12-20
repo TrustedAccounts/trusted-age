@@ -1,0 +1,28 @@
+@use "../../../../../src/styles/theme/spacing" as *;
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/fonts" as *;
+
+$circle-separator-size: 3px;
+
+.Footer {
+  padding: $spacing-m;
+  min-height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+
+  a {
+    display: flex;
+    align-items: center;
+    font-size: $font-xs;
+  }
+
+  a:not(:last-child)::after {
+    content: '';
+    display: inline-block;
+    width: $circle-separator-size;
+    height: $circle-separator-size;
+    border-radius: 50%;
+    background-color: $blue;
+    margin: auto $spacing-xs;
+  }
+}

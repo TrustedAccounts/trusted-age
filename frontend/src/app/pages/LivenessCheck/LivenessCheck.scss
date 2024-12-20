@@ -1,0 +1,76 @@
+@use "../../../../src/styles/theme/colors" as *;
+@use "../../../../src/styles/theme/fonts" as *;
+@use "../../../../src/styles/theme/spacing" as *;
+
+.WarningBanner {
+  padding: $spacing-xs;
+
+  img {
+    margin-right: $spacing-s;
+  }
+
+  .InfoBox {
+    text-align: start;
+    p {
+      font-size: $font-xs;
+    }
+
+    .title {
+      font-size: 1.2 * $font-xs;
+    }
+  }
+}
+
+.LivenessCheck {
+
+  .ColumnActions {
+    margin-top: $spacing-xs;
+  }
+
+  .amplify-liveness-instruction-overlay {
+    padding: 0;
+  }
+
+  .amplify-liveness-camera-module {
+    border: none;
+  }
+
+  .amplify-flex button:not(.amplify-liveness-cancel-button) {
+    width: 100%;
+    border-radius: $border-radius-l;
+    padding: $spacing-xxs $spacing-s;
+    border: 2px solid $blue;
+    background: $blue;
+    min-height: 56px;
+    box-sizing: border-box;
+  }
+
+  .amplify-flex button.amplify-liveness-cancel-button {
+    padding: $spacing-xs;
+    color: $text-dk;
+    background: transparent;
+    outline: none;
+  }
+
+  .amplify-alert__icon {
+    color: $red
+  }
+
+  .amplify-liveness-match-indicator__bar {
+    border: none;
+    background: $grey-ltr;
+    border-radius: $border-radius-m;
+
+    &::after {
+      background: $blue;
+    }
+  }
+
+  .amplify-liveness-toast.amplify-liveness-toast--primary.amplify-liveness-toast--large {
+    background-color: transparent;
+  }
+
+  .amplify-liveness-toast__message {
+    color: $text-dk;
+  }
+}

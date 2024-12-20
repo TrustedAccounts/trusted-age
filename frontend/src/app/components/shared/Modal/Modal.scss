@@ -1,0 +1,46 @@
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/spacing" as *;
+
+.ImageModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100dvw;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: unset;
+    min-height: unset;
+    padding: 8px;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .amplify-loader {
+    stroke: #5b5b5c;
+    height: 150px;
+
+    circle[data-testid="circular-filled"] {
+      stroke: $blue;
+    }
+  }
+
+  .NoImage {
+    padding: $spacing-s;
+    background-color: $grey-ltr;
+    border-radius: $border-radius-s;
+    color: $red;
+    font-size: 25px;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "trusted-age",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "serve-dev:frontend": "npm run start --workspace=frontend",
+    "serve-dev:frontend:https": "HTTPS=true npm run start --workspace=frontend",
+    "serve-dev:backend": "npm run start --workspace=backend",
+    "build-dev:frontend": "npm run build --workspace=frontend",
+    "build-dev:backend": "npm run build --workspace=backend",
+    "start": "concurrently \"npm run serve-dev:frontend\" \"npm run serve-dev:backend\"",
+    "build": "concurrently \"npm run build-dev:frontend\" \"npm run build-dev:backend\"",
+    "build:docker:backend": "cd backend && docker build --no-cache -t test-trustedage-backend .",
+    "start:docker:backend": "docker run -p 5555 test-trustedage-backend",
+    "build:docker:frontend": "cd frontend && docker build --no-cache -t test-trustedage-frontend .",
+    "start:docker:frontend": "docker run -p 4203:80 test-trustedage-frontend",
+    "start:docker-compose": "docker-compose up --build"
+  },
+  "devDependencies": {
+    "@aws-amplify/backend": "^1.0.4",
+    "@aws-amplify/backend-cli": "^1.1.0",
+    "@types/multer": "^1.4.11",
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

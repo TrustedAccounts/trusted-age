@@ -1,0 +1,44 @@
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/spacing" as *;
+
+.Button {
+  width: 100%;
+  border-radius: $border-radius-l;
+  padding: $spacing-xxs $spacing-s;
+  border: 2px solid $blue;
+  color: $blue;
+  min-height: 56px;
+  box-sizing: border-box;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    cursor: pointer;
+  }
+
+  &:has(+ input:disabled) {
+    opacity: 0.5;
+  }
+}
+
+.cta {
+  background: $blue;
+  color: $white;
+}
+
+.outlined {
+  background: transparent;
+}
+
+.ghost {
+  background-color: transparent;
+  border: none;
+}
+
+.secondary {
+  background: $blue-ltr;
+  border-color: transparent;
+}

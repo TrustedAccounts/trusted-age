@@ -1,0 +1,23 @@
+@use "../../../../src/styles/theme/colors" as *;
+@use "../../../../src/styles/theme/spacing" as *;
+@use "../../../../src/styles/theme/fonts" as *;
+
+.PrivacyInfo {
+  text-align: start;
+  //margin-top: $spacing-lg;
+  margin-bottom: $spacing-m;
+  width: 100%;
+
+  .Divider {
+    margin: $spacing-s 0;
+  }
+
+  .PrivacyTextBox {
+    margin-left: $spacing-xs;
+
+    p {
+      color: $blue;
+      font-size: $font-xs;
+    }
+  }
+}

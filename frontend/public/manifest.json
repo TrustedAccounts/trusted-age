@@ -1,0 +1,9 @@
+{
+  "short_name": "Trusted Accounts",
+  "name": "Trusted Accounts",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

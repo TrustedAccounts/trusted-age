@@ -1,0 +1,16 @@
+@use "../../../../src/styles/theme/colors" as *;
+@use "../../../../src/styles/theme/spacing" as *;
+
+.ColumnCenterSpaceBetween {
+  text-align: center;
+  height: 100%;
+
+  h1 {
+    color: $blue;
+    margin-bottom: $spacing-xs;
+  }
+
+  > p {
+    margin-bottom: $spacing-xl;
+  }
+}

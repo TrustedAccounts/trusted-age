@@ -1,0 +1,27 @@
+@use "../../../../../src/styles/theme/spacing" as *;
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/fonts" as *;
+
+.Header {
+  padding: $spacing-m;
+  width: 100%;
+  box-sizing: border-box;
+
+    .Logo {
+        width: 120px;
+    }
+}
+
+.InfoLink {
+  color: $blue;
+  text-decoration: none;
+
+  a {
+    font-size: $font-xs;
+  }
+
+  img {
+    width: $spacing-m;
+    height: $spacing-m;
+  }
+}

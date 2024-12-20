@@ -1,0 +1,20 @@
+@use "../../../../src/styles/theme/colors" as *;
+@use "../../../../src/styles/theme/spacing" as *;
+
+.IdPassportVerification {
+  text-align: center;
+  height: 100%;
+
+  h1 {
+    color: $blue;
+    margin-bottom: $spacing-xs;
+  }
+
+  p, .SectionHeader {
+    margin-bottom: $spacing-m;
+  }
+
+  .InputWrapper:not(:last-child) {
+    margin-bottom: $spacing-s;
+  }
+}

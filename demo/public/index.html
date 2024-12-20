@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Content Access</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Content Access</h1>
+</div>
+
+<div class="main-content">
+    <img src="https://via.placeholder.com/150" alt="Company Logo" class="logo">
+    <div id="message">
+        <h2>Welcome to Our Exclusive Content</h2>
+        <p>Please verify your identity by logging in with Trusted Accounts.</p>
+    </div>
+    <button id="verifyButton" class="cta-button">
+        Verify Me
+    </button>
+    <p id="warningMessage" class="warning" style="display: none;"></p>
+</div>
+
+<div class="footer">
+    &copy; 2023 Forum Company. All rights reserved.
+</div>
+
+<!-- Include the SDK script -->
+<script src="https://stage-age.trustedaccounts.org/sdk.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const verifyButton = document.getElementById('verifyButton');
+        const warningMessage = document.getElementById('warningMessage');
+
+        function checkAuthentication() {
+            window.TrustedAgeSdk.isAuthenticated(function(authenticated) {
+                if (authenticated) {
+                    window.TrustedAgeSdk.getToken(function(token) {
+                        // Send the token to the server
+                        fetch('/verify-token', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ token }),
+                        })
+                            .then((response) => {
+                                response.text().then(html => {
+                                        document.open();
+                                        document.write(html);
+                                        document.close();
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error('Error verifying token:', error);
+                                showError('Access Denied: Verification failed.');
+                            });
+                    });
+                } else {
+                    showError(
+                        "You're not logged in. " +
+                        "<a href='https://stage-age.trustedaccounts.org/' target='_blank' style='color: #4CAF50;'>Click here to log in</a>."
+                    );
+                }
+            });
+        }
+
+        function showError(message) {
+            warningMessage.innerHTML = message;  // Allow HTML for the link
+            warningMessage.style.display = 'block';
+        }
+
+        verifyButton.addEventListener('click', function() {
+            checkAuthentication();
+        });
+    });
+</script>
+</body>
+</html>

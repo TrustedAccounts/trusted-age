@@ -1,0 +1,60 @@
+@use "../../../../../src/styles/theme/colors" as *;
+@use "../../../../../src/styles/theme/spacing" as *;
+@use "../../../../../src/styles/theme/fonts" as *;
+
+$field-padding: $spacing-s;
+
+.InputWrapper {
+  padding-top: $spacing-xs;
+  width: 100%;
+  position: relative;
+}
+
+.InputContent {
+  position: relative;
+
+  .LabelWrapper {
+    position: absolute;
+    top: -$spacing-xs;
+    left: $field-padding - $spacing-xxxs;
+    background: $white;
+    padding: 0 $spacing-xxxs;
+    color: $blue;
+    line-height: 1;
+
+    label {
+      line-height: 1;
+    }
+  }
+
+  &.Invalid {
+    .LabelWrapper {
+      color: $red;
+    }
+
+    select, input {
+      &:not(:active):not(:focus) {
+        border-color: $red;
+        color: $red;
+      }
+    }
+  }
+
+  select, input {
+    width: 100%;
+    padding: $field-padding;
+    border: 2px solid $blue;
+    border-radius: $border-radius-xs;
+    color: $text-dk;
+
+    &:active, &:focus {
+      color: $blue;
+      outline: none;
+    }
+  }
+
+  select {
+    appearance: none;
+    background: url("../../../../assets/icons/caret-down.svg") no-repeat right $field-padding center;
+  }
+}

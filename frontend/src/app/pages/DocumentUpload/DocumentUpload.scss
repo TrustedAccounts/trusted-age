@@ -1,0 +1,59 @@
+@use "../../../../src/styles/theme/colors" as *;
+@use "../../../../src/styles/theme/spacing" as *;
+@use "../../../../src/styles/theme/fonts" as *;
+
+.DocumentUpload {
+  text-align: center;
+  height: 100%;
+
+  .Error, .Info {
+    margin-bottom: $spacing-m;
+  }
+}
+
+.Info {
+    color: $orange;
+
+  img {
+    margin-right: $spacing-xxs;
+  }
+
+  p {
+    text-align: start;
+    color: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.CardPlaceholder {
+  height: 247px;
+  border: 3px solid #9698ff;
+  margin-bottom: $spacing-xs;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.PrivacyInfo {
+  text-align: start;
+  margin-bottom: $spacing-m;
+  width: 100%;
+
+  .Divider {
+    margin: $spacing-s 0;
+  }
+
+  .PrivacyTextBox {
+    margin-left: $spacing-xs;
+
+    p {
+      color: $blue;
+      font-size: $font-xs;
+    }
+  }
+}
